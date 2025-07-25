@@ -2,6 +2,7 @@ package com.spring.database.chap01.api;
 
 import com.spring.database.chap01.entity.Book;
 import com.spring.database.chap01.repository.BookRepository;
+import com.spring.database.chap03.PetMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
