@@ -1,5 +1,6 @@
 package com.spring.database.chap03.entity;
 
+import jakarta.persistence.Entity;
 import lombok.*;
 
 /*
@@ -10,6 +11,7 @@ CREATE TABLE tbl_pet (
      injection BOOLEAN
 );
  */
+
 @Getter
 @Setter
 @ToString
@@ -17,6 +19,7 @@ CREATE TABLE tbl_pet (
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class Pet {
 
     private Long id;
