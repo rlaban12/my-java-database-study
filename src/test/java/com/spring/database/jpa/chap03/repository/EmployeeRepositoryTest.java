@@ -138,4 +138,105 @@ class EmployeeRepositoryTest {
 
     }
 
+    @Test
+    @DisplayName("부서가 제거되면 CASCADE REMOVE에 의해 해당 부서 사원이 모두 삭제된다.")
+    void cascadeTest() {
+        //given
+        Long deptId = 1L;
+
+        //when
+        departmentRepository.deleteById(deptId);
+
+        //then
+
+
+    }
+
+    @Test
+    @DisplayName("양방향 매핑 리스트에서 사원을 추가하면 DB에도 INSERT된다.")
+    void persistTest() {
+        //given
+        // 부서 조회
+        Department department = departmentRepository.findById(2L).orElseThrow();
+
+        // 새로운 사원 생성
+        Employee employee = Employee.builder()
+                .name("파이리")
+                .department(department)
+                .build();
+
+        //when
+//        employeeRepository.save(employee);
+//        department.getEmployees().add(employee);
+
+        department.addEmployee(employee);
+
+        em.flush();
+        em.clear();
+
+        //then
+        Employee foundEmp = employeeRepository.findById(5L).orElseThrow();
+        System.out.println("foundEmp = " + foundEmp);
+        System.out.println("foundEmp.getDepartment() = " + foundEmp.getDepartment());
+
+
+    }
+
+    @Test
+    @DisplayName("양방향 매핑 리스트에서 사원을 제거하면 실제 DB에서 DELETE된다")
+    void orphanRemovalTest() {
+        //given
+        // 1번 부서 조회
+        Department foundDept = departmentRepository.findById(1L).orElseThrow();
+        // 1번 부서의 모든 사원 조회
+        /*
+            SELECT *
+            FROM tbl_emp
+            WHERE dept_id = 1
+         */
+        List<Employee> employees = foundDept.getEmployees();
+
+        // 1번 사원을 지우고 싶음
+        employees.remove(0);
+
+        //when
+
+
+        //then
+
+
+    }
+
+    @Test
+    @DisplayName("N + 1문제 확인")
+    void nPlusOneTest() {
+        //given
+
+
+        //when
+        List<Department> departments = departmentRepository.findAll();
+
+        //then
+        departments.forEach(dept -> {
+            System.out.println("dept + dept.get.Employees() = " + dept + " " + dept.getEmployees());
+        });
+
+    }
+
+    @Test
+    @DisplayName("N + 1 문제 해결을 위한 fetch join")
+    void nPlusOneFetchJoinTest() {
+        //given
+
+
+        //when
+        List<Department> departments = departmentRepository.findAllByFetch();
+
+        //then
+        departments.forEach(d -> {
+            System.out.println("d + d.getEmployees() = " + d + " " + d.getEmployees());
+        });
+
+    }
+
 }

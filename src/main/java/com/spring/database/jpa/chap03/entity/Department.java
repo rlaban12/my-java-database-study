@@ -53,7 +53,14 @@ public class Department {
 
      */
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(mappedBy = "department", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees = new ArrayList<>();
+
+    // 양방향 매핑 리스트에 사원을 추가할 때 사용할 편의 메서드
+    public void addEmployee(Employee employee) {
+        this.employees.add(employee);
+        employee.setDepartment(this);
+    }
+
 
 }
