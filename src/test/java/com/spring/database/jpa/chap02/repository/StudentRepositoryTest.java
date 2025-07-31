@@ -1,6 +1,7 @@
 package com.spring.database.jpa.chap02.repository;
 
 import com.spring.database.jpa.chap02.entity.Student;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,14 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 //@Transactional
 class StudentRepositoryTest {
 
+    @Autowired StudentRepository studentRepository;
+
     @Autowired
-    StudentRepository studentRepository;
+    EntityManager em;
 
     @BeforeEach
     void bulkSave() {
@@ -89,19 +92,18 @@ class StudentRepositoryTest {
         students.forEach(System.out::println);
     }
 
+
     @Test
-    @DisplayName("JPQL로 조회하기")
-    void jpqTest() {
+    @DisplayName("JPQL로 조회해보기")
+    void jpqlTest() {
         //given
         String city = "서울시";
-
         //when
         List<Student> students = studentRepository.getStudentByCity(city);
-
         //then
         students.forEach(System.out::println);
-
     }
+
 
     @Test
     @DisplayName("순수 SQL로 조회하기")
@@ -109,15 +111,39 @@ class StudentRepositoryTest {
         //given
         String name = "어피치";
         String city = "제주도";
-
         //when
-        List<Student> students = studentRepository.getStudents(city, name);
-
+        List<Student> students = studentRepository.getStudents(name, city);
         //then
         students.forEach(System.out::println);
-
     }
 
+
+
+    @Test
+    @DisplayName("데이터 잘라서 가져오기")
+    void pagingTest() {
+
+        for (int i = 0; i < 1000; i++) {
+            Student student = Student.builder()
+                    .name("가상의이름 " + i)
+                    .major("가상의 전공 " + i)
+                    .city("가상의 도시 " + i)
+                    .build();
+            studentRepository.save(student);
+        }
+
+        String sql = """
+                SELECT * FROM tbl_student
+                ORDER BY stu_name
+                LIMIT 5 OFFSET 0
+                """;
+
+        List<Student> resultList = (List<Student>) em.createNativeQuery(sql, Student.class)
+                .getResultList();
+
+        resultList.forEach(System.out::println);
+
+    }
 
 
 }
