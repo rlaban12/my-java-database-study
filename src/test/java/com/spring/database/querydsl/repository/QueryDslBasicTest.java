@@ -116,10 +116,9 @@ class QueryDslBasicTest {
         //when
         Idol foundIdol = jdbcTemplate.queryForObject(sql,
                 (rs, n) -> new Idol(
-                        rs.getLong("idol_id")
-                        , rs.getString("idol_name")
-                        , rs.getInt("age")
-                        , null
+//                        rs.getLong("idol_id")
+//                        , rs.getString("idol_name")
+//                        , rs.getInt("age")
                 ),
                 "김채원"
         );
@@ -128,9 +127,9 @@ class QueryDslBasicTest {
                         SELECT * FROM tbl_group WHERE group_id = ?
                         """,
                 (rs, n) -> new Group(
-                        rs.getLong("group_id")
-                        , rs.getString("group_name")
-                        , null
+//                        rs.getLong("group_id")
+//                        , rs.getString("group_name")
+//                        , null
                 ),
                 1
         );
@@ -235,7 +234,7 @@ class QueryDslBasicTest {
 
     }
 
-    // 연습 문제 코드
+
     @Test
     @DisplayName("나이가 24세 이상인 아이돌 조회")
     void testAgeGoe() {
@@ -284,7 +283,6 @@ class QueryDslBasicTest {
         int ageStart = 20;
         int ageEnd = 25;
 
-
         // when
         List<Idol> result = factory
                 .selectFrom(idol)
@@ -303,7 +301,6 @@ class QueryDslBasicTest {
     @Test
     @DisplayName("르세라핌 그룹에 속한 아이돌 조회")
     void testGroupEquals() {
-
         String sql = """
                 SELECT
                     I.*, G.group_name
@@ -329,5 +326,6 @@ class QueryDslBasicTest {
             assertEquals(groupName, idol.getGroup().getGroupName());
         }
     }
+
 
 }

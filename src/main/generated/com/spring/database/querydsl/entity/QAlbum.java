@@ -11,44 +11,42 @@ import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
- * QIdol is a Querydsl query type for Idol
+ * QAlbum is a Querydsl query type for Album
  */
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
-public class QIdol extends EntityPathBase<Idol> {
+public class QAlbum extends EntityPathBase<Album> {
 
-    private static final long serialVersionUID = -363942455L;
+    private static final long serialVersionUID = 1595523838L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
-    public static final QIdol idol = new QIdol("idol");
+    public static final QAlbum album = new QAlbum("album");
 
-    public final NumberPath<Integer> age = createNumber("age", Integer.class);
-
-    public final StringPath gender = createString("gender");
+    public final StringPath albumName = createString("albumName");
 
     public final QGroup group;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath idolName = createString("idolName");
+    public final NumberPath<Integer> releaseYear = createNumber("releaseYear", Integer.class);
 
-    public QIdol(String variable) {
-        this(Idol.class, forVariable(variable), INITS);
+    public QAlbum(String variable) {
+        this(Album.class, forVariable(variable), INITS);
     }
 
-    public QIdol(Path<? extends Idol> path) {
+    public QAlbum(Path<? extends Album> path) {
         this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
-    public QIdol(PathMetadata metadata) {
+    public QAlbum(PathMetadata metadata) {
         this(metadata, PathInits.getFor(metadata, INITS));
     }
 
-    public QIdol(PathMetadata metadata, PathInits inits) {
-        this(Idol.class, metadata, inits);
+    public QAlbum(PathMetadata metadata, PathInits inits) {
+        this(Album.class, metadata, inits);
     }
 
-    public QIdol(Class<? extends Idol> type, PathMetadata metadata, PathInits inits) {
+    public QAlbum(Class<? extends Album> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.group = inits.isInitialized("group") ? new QGroup(forProperty("group")) : null;
     }
